@@ -14,12 +14,13 @@ $(xz-utils_prepare): $(LOCAL_PATH)/../../config.h.$(TARGET_ARCH)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
+	../common/tuklib_cpucores.c \
 	../common/tuklib_physmem.c \
 	common/common.c \
 	common/block_util.c \
 	common/easy_preset.c \
 	common/filter_common.c \
-        common/hardware_cputhreads.c \
+	common/hardware_cputhreads.c \
 	common/hardware_physmem.c \
 	common/index.c \
 	common/stream_flags_common.c \
@@ -37,7 +38,7 @@ LOCAL_SRC_FILES := \
 	common/index_encoder.c \
 	common/stream_buffer_encoder.c \
 	common/stream_encoder.c \
-        common/stream_encoder_mt.c \
+	common/stream_encoder_mt.c \
 	common/stream_flags_encoder.c \
 	common/vli_encoder.c \
 	common/alone_decoder.c \
@@ -51,7 +52,7 @@ LOCAL_SRC_FILES := \
 	common/filter_flags_decoder.c \
 	common/index_decoder.c \
 	common/index_hash.c \
-        common/outqueue.c \
+	common/outqueue.c \
 	common/stream_buffer_decoder.c \
 	common/stream_decoder.c \
 	common/stream_flags_decoder.c \
@@ -111,4 +112,8 @@ LOCAL_PRELINK_MODULE := false
 
 LOCAL_ADDITIONAL_DEPENDENCIES += $(xz-utils_prepare)
 
-include $(BUILD_STATIC_LIBRARY)
+ifeq ($(XPOSED_BUILD_STATIC),true)
+  include $(BUILD_STATIC_LIBRARY)
+else
+  include $(BUILD_SHARED_LIBRARY)
+endif
